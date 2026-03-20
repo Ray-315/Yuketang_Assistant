@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+target
+src-tauri/target
+*.db
+*.sqlite
+*.sqlite3
+*.zip
+package-lock.json

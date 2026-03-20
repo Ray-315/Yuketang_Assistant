@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f7f3eb;
+  color: #372d27;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+.shell {
+  display: grid;
+  place-items: center;
+  padding: 48px 20px;
+}
+.panel {
+  width: min(760px, 100%);
+  padding: 28px;
+  border-radius: 22px;
+  background: rgba(255, 250, 244, 0.92);
+  border: 1px solid rgba(115, 92, 78, 0.16);
+  box-shadow: 0 18px 40px rgba(51, 32, 22, 0.12);
+}
+.eyebrow { text-transform: uppercase; letter-spacing: 0.16em; color: #8b7568; font-size: 12px; }
+label { display: grid; gap: 8px; margin-top: 16px; }
+input, textarea, button {
+  font: inherit;
+  border-radius: 14px;
+  border: 1px solid rgba(115, 92, 78, 0.18);
+  padding: 12px 14px;
+}
+textarea { min-height: 96px; resize: vertical; }
+button { margin-top: 18px; cursor: pointer; }
+.check { display: flex; align-items: center; gap: 10px; }

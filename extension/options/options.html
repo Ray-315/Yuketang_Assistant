@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>批改工作台扩展设置</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <p class="eyebrow">Bridge</p>
+        <h1>扩展设置</h1>
+        <label>本地桌面端地址<input id="bridgeBaseUrl" /></label>
+        <label>主选择器<textarea id="primarySelector"></textarea></label>
+        <label>候选选择器<textarea id="fallbackSelectors"></textarea></label>
+        <label>锚点文本<textarea id="anchorTexts"></textarea></label>
+        <label class="check"><input type="checkbox" id="hotkeysEnabled" />启用 A / S / Z 快捷键</label>
+        <button id="saveButton">保存</button>
+        <p id="status"></p>
+      </section>
+    </main>
+    <script src="../lib/profiles.js"></script>
+    <script src="options.js"></script>
+  </body>
+  </html>

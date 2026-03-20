@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "批改工作台桥接",
+  "version": "0.1.0",
+  "description": "在网页批改系统中识别学生姓名并把对错操作发送到本地桌面端。",
+  "permissions": ["storage"],
+  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*", "<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options/options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/profiles.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

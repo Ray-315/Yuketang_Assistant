@@ -1,0 +1,36 @@
+[package]
+name = "grading-workbench"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "grading_workbench_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.3.1", features = [] }
+
+[dependencies]
+anyhow = "1.0.100"
+axum = { version = "0.8.8", features = ["ws"] }
+calamine = "0.31.0"
+chrono = { version = "0.4.42", features = ["serde"] }
+csv = "1.4.0"
+dirs = "6.0.0"
+futures-util = "0.3.31"
+sanitize-filename = "0.6.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+sqlx = { version = "0.8.6", features = ["runtime-tokio-rustls", "sqlite", "chrono", "uuid"] }
+tauri = { version = "2.10.3", features = [] }
+tauri-plugin-dialog = "2.6.0"
+thiserror = "2.0.17"
+tokio = { version = "1.48.0", features = ["full"] }
+tower-http = { version = "0.6.6", features = ["cors"] }
+uuid = { version = "1.18.1", features = ["v4", "serde"] }
+rust_xlsxwriter = "0.92.0"
+zip = { version = "6.0.0", default-features = false, features = ["deflate"] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
