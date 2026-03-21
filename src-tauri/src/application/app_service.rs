@@ -342,6 +342,7 @@ pub async fn save_settings(state: &SharedState, input: AppSettings) -> AppResult
         ("bridge_port", input.bridge_port.to_string()),
         ("auto_backup_enabled", input.auto_backup_enabled.to_string()),
         ("backup_directory", input.backup_directory.clone()),
+        ("ui_mode", input.ui_mode.clone()),
         ("default_score_policy", serde_json::to_string(&input.default_score_policy)?),
     ] {
         sqlx::query("INSERT INTO app_settings(key, value) VALUES(?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value")

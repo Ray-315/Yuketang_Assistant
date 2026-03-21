@@ -12,6 +12,7 @@ pub async fn ensure_defaults(pool: &SqlitePool) -> AppResult<()> {
         .display()
         .to_string();
     set_if_missing(pool, "backup_directory", &backup_dir).await?;
+    set_if_missing(pool, "ui_mode", "zen").await?;
     set_if_missing(
         pool,
         "default_score_policy",

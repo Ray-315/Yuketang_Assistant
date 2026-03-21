@@ -102,11 +102,14 @@ export type BackupRecord = {
   note: string;
 };
 
+export type UiMode = "zen" | "macos";
+
 export type AppSettings = {
   bridgePort: number;
   autoBackupEnabled: boolean;
   backupDirectory: string;
   defaultScorePolicy: ScorePolicy;
+  uiMode: UiMode;
 };
 
 export type SessionSnapshot = {
