@@ -34,7 +34,7 @@ const emptyBootstrap: AppBootstrap = {
   classes: [],
   students: [],
   assignments: [],
-  settings: { bridgePort: 48123, autoBackupEnabled: true, backupDirectory: "", defaultScorePolicy: { thresholdRatio: 0.3, thresholdRounding: "ceil", bands: [] } },
+  settings: { bridgePort: 48123, autoBackupEnabled: true, backupDirectory: "", defaultScorePolicy: { thresholdRatio: 0.3, thresholdRounding: "ceil", bands: [] }, uiMode: "zen" },
   adapters: [],
   backups: [],
   session: { questionIndex: 0, questionCount: 0, gradedCount: 0, wrongCount: 0, predictedScore: 0, currentStudentCompleted: false, connectionState: "idle", matchState: "missing", matchCandidates: [] }

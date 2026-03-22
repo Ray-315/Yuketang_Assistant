@@ -1,6 +1,5 @@
-import { save, open } from "@tauri-apps/plugin-dialog";
+import { save } from "@tauri-apps/plugin-dialog";
 import { createBackup, exportAssignment, generateStudentTemplate, restoreBackup, saveAdapterProfile, saveSettings } from "../lib/api";
-import { SelectField } from "../components/SelectField";
 import type { AdapterProfile, AppSettings, AssignmentRecord, BackupRecord } from "../../shared/models";
 
 type Props = {
@@ -10,10 +9,15 @@ type Props = {
   selectedAssignmentId?: string;
   assignments: AssignmentRecord[];
   onRefresh: () => Promise<void>;
+  onSettingsChange: (settings: AppSettings) => void;
 };
 
-export function SettingsPage({ settings, adapters, backups, selectedAssignmentId, assignments, onRefresh }: Props) {
+export function SettingsPage({ settings, adapters, backups, selectedAssignmentId, assignments, onRefresh, onSettingsChange }: Props) {
   const adapter = adapters[0];
+  const persistSettings = async (next: AppSettings) => {
+    await saveSettings(next);
+    onSettingsChange(next);
+  };
 
   return (
     <section className="page-shell">
@@ -27,9 +31,14 @@ export function SettingsPage({ settings, adapters, backups, selectedAssignmentId
       <div className="split-grid">
         <section className="panel form-panel">
           <div className="panel-head"><h3>应用设置</h3><span>本地优先</span></div>
-          <label>桥接端口<input defaultValue={settings.bridgePort} onBlur={async (event) => { await saveSettings({ ...settings, bridgePort: Number(event.target.value) }); await onRefresh(); }} /></label>
-          <label>备份目录<input defaultValue={settings.backupDirectory} onBlur={async (event) => { await saveSettings({ ...settings, backupDirectory: event.target.value }); await onRefresh(); }} /></label>
-          <label className="checkbox-line"><input type="checkbox" defaultChecked={settings.autoBackupEnabled} onChange={async (event) => { await saveSettings({ ...settings, autoBackupEnabled: event.target.checked }); await onRefresh(); }} />启用自动备份</label>
+          <div className="panel-head"><h3>界面模式</h3><span>{settings.uiMode === "flat" ? "Flat" : "Zen"}</span></div>
+          <div className="actions">
+            <button className={settings.uiMode === "zen" ? "compact-button" : "ghost-button compact-button"} onClick={() => void persistSettings({ ...settings, uiMode: "zen" })}>Zen</button>
+            <button className={settings.uiMode === "flat" ? "compact-button" : "ghost-button compact-button"} onClick={() => void persistSettings({ ...settings, uiMode: "flat" })}>Flat</button>
+          </div>
+          <label>桥接端口<input defaultValue={settings.bridgePort} onBlur={async (event) => { await persistSettings({ ...settings, bridgePort: Number(event.target.value) }); }} /></label>
+          <label>备份目录<input defaultValue={settings.backupDirectory} onBlur={async (event) => { await persistSettings({ ...settings, backupDirectory: event.target.value }); }} /></label>
+          <label className="checkbox-line"><input type="checkbox" defaultChecked={settings.autoBackupEnabled} onChange={async (event) => { await persistSettings({ ...settings, autoBackupEnabled: event.target.checked }); }} />启用自动备份</label>
           <div className="actions">
             <button onClick={async () => { await createBackup(); await onRefresh(); }}>立即备份</button>
             <button className="ghost-button" onClick={async () => {

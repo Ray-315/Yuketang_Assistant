@@ -62,6 +62,15 @@ pub async fn load_settings(pool: &SqlitePool) -> AppResult<AppSettings> {
             .display()
             .to_string()
     });
+    let ui_mode = match get_setting(pool, "ui_mode")
+        .await?
+        .unwrap_or_else(|| "zen".into())
+        .as_str()
+    {
+        "macos" => "flat".to_string(),
+        "flat" => "flat".to_string(),
+        _ => "zen".to_string(),
+    };
     let policy = get_setting(pool, "default_score_policy").await?;
     let default_score_policy =
         serde_json::from_str(&policy.unwrap_or_else(|| serde_json::to_string(&ScorePolicy::default()).unwrap()))?;
@@ -70,6 +79,7 @@ pub async fn load_settings(pool: &SqlitePool) -> AppResult<AppSettings> {
         auto_backup_enabled: auto_backup_enabled == "true",
         backup_directory,
         default_score_policy,
+        ui_mode,
     })
 }
 

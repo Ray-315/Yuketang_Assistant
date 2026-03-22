@@ -131,6 +131,7 @@ pub struct AppSettings {
     pub auto_backup_enabled: bool,
     pub backup_directory: String,
     pub default_score_policy: ScorePolicy,
+    pub ui_mode: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
