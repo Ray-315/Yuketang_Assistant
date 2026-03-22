@@ -29,10 +29,10 @@ export function MacSettingsPage({ settings, adapters, backups, selectedAssignmen
             <MacField label="界面模式">
               <MacSegmented
                 value={settings.uiMode}
-                onChange={(value) => void persistSettings({ ...settings, uiMode: value as "zen" | "macos" })}
+                onChange={(value) => void persistSettings({ ...settings, uiMode: value as "zen" | "flat" })}
                 options={[
                   { label: "Zen", value: "zen" },
-                  { label: "macOS", value: "macos" }
+                  { label: "Flat", value: "flat" }
                 ]}
               />
             </MacField>

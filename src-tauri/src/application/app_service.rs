@@ -338,12 +338,18 @@ pub async fn get_assignment_detail(pool: &SqlitePool, id: &str) -> AppResult<Ass
 
 pub async fn save_settings(state: &SharedState, input: AppSettings) -> AppResult<()> {
     let pool = state.pool().await;
+    let ui_mode = match input.ui_mode.as_str() {
+        "flat" | "macos" => "flat".to_string(),
+        _ => "zen".to_string(),
+    };
+    let mut next = input.clone();
+    next.ui_mode = ui_mode.clone();
     for (key, value) in [
-        ("bridge_port", input.bridge_port.to_string()),
-        ("auto_backup_enabled", input.auto_backup_enabled.to_string()),
-        ("backup_directory", input.backup_directory.clone()),
-        ("ui_mode", input.ui_mode.clone()),
-        ("default_score_policy", serde_json::to_string(&input.default_score_policy)?),
+        ("bridge_port", next.bridge_port.to_string()),
+        ("auto_backup_enabled", next.auto_backup_enabled.to_string()),
+        ("backup_directory", next.backup_directory.clone()),
+        ("ui_mode", ui_mode),
+        ("default_score_policy", serde_json::to_string(&next.default_score_policy)?),
     ] {
         sqlx::query("INSERT INTO app_settings(key, value) VALUES(?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value")
             .bind(key)
@@ -351,7 +357,7 @@ pub async fn save_settings(state: &SharedState, input: AppSettings) -> AppResult
             .execute(&pool)
             .await?;
     }
-    *state.0.settings.write().await = input;
+    *state.0.settings.write().await = next;
     Ok(())
 }
 

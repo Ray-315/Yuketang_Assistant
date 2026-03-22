@@ -26,7 +26,7 @@ export default function App() {
     useAppStore.setState({ settings });
   };
 
-  return store.settings.uiMode === "macos"
+  return store.settings.uiMode === "flat"
     ? <MacWorkbench onSettingsChange={handleSettingsChange} />
     : <ZenWorkbench onSettingsChange={handleSettingsChange} />;
 }

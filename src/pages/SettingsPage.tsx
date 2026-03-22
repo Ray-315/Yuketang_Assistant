@@ -31,10 +31,10 @@ export function SettingsPage({ settings, adapters, backups, selectedAssignmentId
       <div className="split-grid">
         <section className="panel form-panel">
           <div className="panel-head"><h3>应用设置</h3><span>本地优先</span></div>
-          <div className="panel-head"><h3>界面模式</h3><span>{settings.uiMode === "macos" ? "macOS" : "Zen"}</span></div>
+          <div className="panel-head"><h3>界面模式</h3><span>{settings.uiMode === "flat" ? "Flat" : "Zen"}</span></div>
           <div className="actions">
             <button className={settings.uiMode === "zen" ? "compact-button" : "ghost-button compact-button"} onClick={() => void persistSettings({ ...settings, uiMode: "zen" })}>Zen</button>
-            <button className={settings.uiMode === "macos" ? "compact-button" : "ghost-button compact-button"} onClick={() => void persistSettings({ ...settings, uiMode: "macos" })}>macOS</button>
+            <button className={settings.uiMode === "flat" ? "compact-button" : "ghost-button compact-button"} onClick={() => void persistSettings({ ...settings, uiMode: "flat" })}>Flat</button>
           </div>
           <label>桥接端口<input defaultValue={settings.bridgePort} onBlur={async (event) => { await persistSettings({ ...settings, bridgePort: Number(event.target.value) }); }} /></label>
           <label>备份目录<input defaultValue={settings.backupDirectory} onBlur={async (event) => { await persistSettings({ ...settings, backupDirectory: event.target.value }); }} /></label>

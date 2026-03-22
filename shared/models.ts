@@ -102,7 +102,7 @@ export type BackupRecord = {
   note: string;
 };
 
-export type UiMode = "zen" | "macos";
+export type UiMode = "zen" | "flat";
 
 export type AppSettings = {
   bridgePort: number;
