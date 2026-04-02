@@ -73,8 +73,16 @@ export function MacAssignmentDetailPage({ detail }: Props) {
             {filteredStudents.length > 0 ? filteredStudents.map((student) => (
               <MacListRow
                 key={student.studentId}
-                body={<div className="mac-student-row"><strong>{student.studentName}</strong><small>{student.gradedCount} 已批 · {student.wrongCount} 错</small></div>}
-                trailing={<span className="mac-inline-meta">{student.score == null ? "未出分" : `${student.score} 分`}</span>}
+                body={
+                  <div className="mac-summary-strip">
+                    <strong className="mac-summary-title">{student.studentName}</strong>
+                    <span className="mac-summary-chip">{`错题：${student.wrongCount}`}</span>
+                    <span className="mac-summary-chip">{`已批改：${student.gradedCount}题`}</span>
+                    <span className="mac-summary-chip is-accent">
+                      {student.score == null ? "未出分" : `${student.score}分`}
+                    </span>
+                  </div>
+                }
               />
             )) : <div className="mac-empty">当前筛选条件下没有学生。</div>}
           </div>
@@ -97,8 +105,15 @@ export function MacAssignmentDetailPage({ detail }: Props) {
               <MacListRow
                 key={row.questionId}
                 danger={row.incorrectRate >= 0.3}
-                body={<div className="mac-question-row"><strong>{row.questionLabel}</strong><small>{percent(row.correctRate)} 正确率 · {percent(row.incorrectRate)} 错误率</small></div>}
-                trailing={<div className="mac-list-metric"><strong>{row.gradedCount}</strong><small>已批</small></div>}
+                body={
+                  <div className="mac-summary-strip">
+                    <strong className="mac-summary-title">{row.questionLabel}</strong>
+                    <span className={row.incorrectRate >= 0.3 ? "mac-summary-chip is-danger" : "mac-summary-chip"}>
+                      {`错误率：${percent(row.incorrectRate)}`}
+                    </span>
+                    <span className="mac-summary-chip">{`已批改：${row.gradedCount}份`}</span>
+                  </div>
+                }
               />
             ))}
           </div>

@@ -42,12 +42,19 @@ async fn ensure_default_adapter(pool: &SqlitePool) -> AppResult<()> {
         return Ok(());
     }
     let selector = "#app > section > section > section > div.box__left > section > div > div > div > div > div.el-table__body-wrapper.is-scrolling-none > table > tbody > tr.el-table__row.current-row > td.el-table_1_column_1.el-table__cell > div > div > section.user > div > span.f14.c333.username";
+    let fallback_selectors = vec![
+        selector,
+        "#app .el-table__row.current-row .username",
+        "#app .el-table__row.current-row span.f14.c333.username",
+        ".el-table__row.current-row .username",
+        "section.user .username",
+    ];
     sqlx::query("INSERT INTO page_adapter_profiles(id, name, host_pattern, primary_selector, fallback_selectors, anchor_texts, enabled, created_at) VALUES(?, ?, ?, ?, ?, ?, 1, datetime('now'))")
         .bind(Uuid::new_v4().to_string())
         .bind("默认批改页")
         .bind("*")
         .bind(selector)
-        .bind(serde_json::to_string(&vec![selector])?)
+        .bind(serde_json::to_string(&fallback_selectors)?)
         .bind(serde_json::to_string(&vec!["username", "当前学生"]) ?)
         .execute(pool)
         .await?;

@@ -4,9 +4,13 @@ import { ZenWorkbench } from "./ZenWorkbench";
 import { MacWorkbench } from "./macos/MacWorkbench";
 import { useAppStore, useScopedData } from "./store/appStore";
 import type { SessionSnapshot } from "../shared/models";
+import { ShowcasePage, useShowcaseMode } from "./pages/ShowcasePage";
+import { ChatGptClonePage, useChatGptMode } from "./chatgpt/ChatGptClonePage";
 
 export default function App() {
   const store = useScopedData();
+  const showcaseMode = useShowcaseMode();
+  const chatGptMode = useChatGptMode();
 
   useEffect(() => { void store.initialize(); }, []);
 
@@ -25,6 +29,14 @@ export default function App() {
   const handleSettingsChange = (settings: typeof store.settings) => {
     useAppStore.setState({ settings });
   };
+
+  if (showcaseMode) {
+    return <ShowcasePage />;
+  }
+
+  if (chatGptMode) {
+    return <ChatGptClonePage />;
+  }
 
   return store.settings.uiMode === "flat"
     ? <MacWorkbench onSettingsChange={handleSettingsChange} />

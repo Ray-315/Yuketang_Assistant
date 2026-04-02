@@ -68,10 +68,14 @@ export function AssignmentDetailPage({ detail }: Props) {
           <div className="list-column">
             {filteredStudents.map((student) => (
               <div key={student.studentId} className="table-row student-row">
-                <strong>{student.studentName}</strong>
-                <span>{student.wrongCount} 错</span>
-                <span>{student.gradedCount} 已批</span>
-                <span>{student.score == null ? "未出分" : `${student.score} 分`}</span>
+                <div className="summary-strip">
+                  <strong className="summary-strip-title">{student.studentName}</strong>
+                  <span className="summary-strip-chip">{`错题：${student.wrongCount}`}</span>
+                  <span className="summary-strip-chip">{`已批改：${student.gradedCount}题`}</span>
+                  <span className="summary-strip-chip is-accent">
+                    {student.score == null ? "未出分" : `${student.score}分`}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -95,10 +99,13 @@ export function AssignmentDetailPage({ detail }: Props) {
           <div className="list-column">
             {detail.questionsStats.map((row) => (
               <div key={row.questionId} className={row.incorrectRate >= 0.3 ? "table-row danger" : "table-row"}>
-                <strong>{row.questionLabel}</strong>
-                <span>{percent(row.correctRate)} 正确率</span>
-                <span>{percent(row.incorrectRate)} 错误率</span>
-                <span>{row.gradedCount} 已批</span>
+                <div className="summary-strip">
+                  <strong className="summary-strip-title">{row.questionLabel}</strong>
+                  <span className={row.incorrectRate >= 0.3 ? "summary-strip-chip is-danger" : "summary-strip-chip"}>
+                    {`错误率：${percent(row.incorrectRate)}`}
+                  </span>
+                  <span className="summary-strip-chip">{`已批改：${row.gradedCount}份`}</span>
+                </div>
               </div>
             ))}
           </div>

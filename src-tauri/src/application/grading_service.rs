@@ -332,6 +332,20 @@ pub async fn publish_snapshot(state: &SharedState) -> AppResult<SessionSnapshot>
     Ok(snapshot)
 }
 
+pub async fn set_connection_state(state: &SharedState, next: &str) -> AppResult<SessionSnapshot> {
+    let mut active = state.0.active_session.write().await;
+    if active.connection_state == next {
+        drop(active);
+        return build_snapshot(state).await;
+    }
+    active.connection_state = next.into();
+    if next == "disconnected" {
+        active.last_action = Some("扩展连接已断开".into());
+    }
+    drop(active);
+    publish_snapshot(state).await
+}
+
 pub async fn roster_students(pool: &SqlitePool, assignment_id: &str) -> AppResult<Vec<StudentRecord>> {
     let rows = sqlx::query(
         "SELECT s.id, s.name, s.student_no, s.notes, s.created_at

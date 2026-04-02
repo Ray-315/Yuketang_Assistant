@@ -9,7 +9,13 @@ const DEFAULT_SETTINGS = {
       name: "默认批改页",
       hostPattern: "*",
       primarySelector: DEFAULT_SELECTOR,
-      fallbackSelectors: [DEFAULT_SELECTOR],
+      fallbackSelectors: [
+        DEFAULT_SELECTOR,
+        "#app .el-table__row.current-row .username",
+        "#app .el-table__row.current-row span.f14.c333.username",
+        ".el-table__row.current-row .username",
+        "section.user .username"
+      ],
       anchorTexts: ["username", "当前学生"],
       enabled: true
     }

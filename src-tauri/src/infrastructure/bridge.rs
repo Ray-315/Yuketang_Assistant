@@ -1,5 +1,5 @@
 use crate::application::app_service::list_adapter_profiles;
-use crate::application::grading_service::{identify_student, publish_snapshot, record_grade};
+use crate::application::grading_service::{identify_student, publish_snapshot, record_grade, set_connection_state};
 use crate::domain::models::{AdapterProfileView, GradeActionInput, SessionSnapshot};
 use crate::error::AppResult;
 use crate::state::SharedState;
@@ -93,6 +93,7 @@ async fn ws_upgrade(ws: WebSocketUpgrade, State(state): State<SharedState>) -> i
 }
 
 async fn ws_client(mut socket: WebSocket, state: SharedState) {
+    let _ = set_connection_state(&state, "connected").await;
     if let Ok(snapshot) = publish_snapshot(&state).await {
         let _ = socket
             .send(Message::Text(serde_json::to_string(&snapshot).unwrap_or_default().into()))
@@ -113,4 +114,5 @@ async fn ws_client(mut socket: WebSocket, state: SharedState) {
             }
         }
     }
+    let _ = set_connection_state(&state, "disconnected").await;
 }

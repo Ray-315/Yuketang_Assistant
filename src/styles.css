@@ -521,9 +521,41 @@ p { margin: 0; }
   padding-right: 0.12rem;
 }
 .student-row {
-  display: grid;
+  display: block;
   align-items: center;
-  grid-template-columns: minmax(120px, 1.2fr) repeat(3, minmax(70px, auto));
+}
+.summary-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.summary-strip-title {
+  font-size: 0.96rem;
+  letter-spacing: 0.01em;
+}
+.summary-strip-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.85rem;
+  padding: 0.08rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, white);
+  background: color-mix(in srgb, white 88%, var(--panel));
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1;
+}
+.summary-strip-chip.is-accent {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--line));
+  background: color-mix(in srgb, var(--accent-soft) 48%, white);
+}
+.summary-strip-chip.is-danger {
+  color: color-mix(in srgb, var(--danger) 74%, var(--text));
+  border-color: color-mix(in srgb, var(--danger) 30%, var(--line));
+  background: color-mix(in srgb, var(--danger) 10%, white);
 }
 .roster-panel {
   position: relative;

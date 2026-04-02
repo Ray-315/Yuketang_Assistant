@@ -704,6 +704,45 @@
   font-size: 13px;
 }
 
+.mac-summary-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.mac-summary-title {
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--mac-text);
+}
+
+.mac-summary-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--mac-line);
+  background: #fff;
+  color: var(--mac-muted);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.mac-summary-chip.is-accent {
+  color: var(--mac-text);
+  background: #eef6ff;
+  border-color: #cfe0fb;
+}
+
+.mac-summary-chip.is-danger {
+  color: #a64658;
+  background: #fff1f4;
+  border-color: #f1c7ce;
+}
+
 .mac-chip-wrap {
   display: flex;
   flex-wrap: wrap;
