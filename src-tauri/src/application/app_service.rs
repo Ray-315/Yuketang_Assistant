@@ -302,8 +302,16 @@ pub async fn get_assignment_detail(pool: &SqlitePool, id: &str) -> AppResult<Ass
             SUM(CASE WHEN r.status != 'ungraded' THEN 1 ELSE 0 END) AS graded_count,
             SUM(CASE WHEN r.status = 'correct' THEN 1 ELSE 0 END) AS correct_count,
             SUM(CASE WHEN r.status = 'incorrect' THEN 1 ELSE 0 END) AS incorrect_count,
-            COALESCE(CAST(SUM(CASE WHEN r.status = 'correct' THEN 1 ELSE 0 END) AS REAL) / NULLIF(SUM(CASE WHEN r.status != 'ungraded' THEN 1 ELSE 0 END), 0), 0) AS correct_rate,
-            COALESCE(CAST(SUM(CASE WHEN r.status = 'incorrect' THEN 1 ELSE 0 END) AS REAL) / NULLIF(SUM(CASE WHEN r.status != 'ungraded' THEN 1 ELSE 0 END), 0), 0) AS incorrect_rate
+            COALESCE(
+              CAST(SUM(CASE WHEN r.status = 'correct' THEN 1 ELSE 0 END) AS REAL)
+              / NULLIF(CAST(SUM(CASE WHEN r.status != 'ungraded' THEN 1 ELSE 0 END) AS REAL), 0.0),
+              0.0
+            ) AS correct_rate,
+            COALESCE(
+              CAST(SUM(CASE WHEN r.status = 'incorrect' THEN 1 ELSE 0 END) AS REAL)
+              / NULLIF(CAST(SUM(CASE WHEN r.status != 'ungraded' THEN 1 ELSE 0 END) AS REAL), 0.0),
+              0.0
+            ) AS incorrect_rate
          FROM assignment_questions q
          JOIN assignment_student_results r ON r.question_id = q.id
          WHERE q.assignment_id = ?

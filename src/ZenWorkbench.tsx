@@ -62,6 +62,7 @@ export function ZenWorkbench({ onSettingsChange }: Props) {
             students={store.students}
             session={store.session}
             selectedAssignmentId={store.selectedAssignmentId}
+            assignmentDetail={store.assignmentDetail}
             onRefresh={store.refreshAll}
             onSession={(session) => useAppStore.setState({ session })}
             onGrade={(action) => store.runGrade({ action })}

@@ -1,27 +1,27 @@
 import { useMemo } from "react";
 import { SelectField } from "../components/SelectField";
 import { startGradingSession, manualSelectQuestion, manualSelectStudent, undoLastGrade } from "../lib/api";
-import type { AssignmentRecord, SessionSnapshot, StudentRecord } from "../../shared/models";
+import type { AssignmentOverview, AssignmentRecord, SessionSnapshot, StudentRecord } from "../../shared/models";
 
 type Props = {
   assignments: AssignmentRecord[];
   students: StudentRecord[];
   session: SessionSnapshot;
   selectedAssignmentId?: string;
+  assignmentDetail?: AssignmentOverview;
   onRefresh: () => Promise<void>;
   onSession: (snapshot: SessionSnapshot) => void;
   onGrade: (action: "correct" | "incorrect") => Promise<void>;
 };
 
-export function GradingPage({ assignments, students, session, selectedAssignmentId, onRefresh, onSession, onGrade }: Props) {
-  const questions = Array.from({ length: session.questionCount }, (_, index) => index + 1);
+export function GradingPage({ assignments, students, session, selectedAssignmentId, assignmentDetail, onRefresh, onSession, onGrade }: Props) {
   const studentOptions = useMemo(
     () => [{ label: "选择学生", value: "" }, ...students.map((student) => ({ label: student.name, value: student.id }))],
     [students]
   );
   const questionOptions = useMemo(
-    () => [{ label: "选择题号", value: "" }, ...questions.map((index) => ({ label: String(index), value: String(index) }))],
-    [questions]
+    () => [{ label: "选择题号", value: "" }, ...(assignmentDetail?.questions ?? []).map((question) => ({ label: question.label, value: question.id }))],
+    [assignmentDetail]
   );
 
   return (

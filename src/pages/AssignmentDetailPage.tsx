@@ -11,14 +11,12 @@ type Props = {
 export function AssignmentDetailPage({ detail }: Props) {
   const [query, setQuery] = useState("");
   const [mode, setMode] = useState<"completed" | "full" | "wrong" | "in_progress">("completed");
-  if (!detail) {
-    return <section className="page-shell"><section className="panel"><h2>从左侧选择一个作业查看详情。</h2></section></section>;
-  }
+  const students = detail?.students ?? [];
   const pendingStudents = useMemo(
-    () => detail.students.filter((student) => student.completionState === "ungraded"),
-    [detail.students]
+    () => students.filter((student) => student.completionState === "ungraded"),
+    [students]
   );
-  const filteredStudents = useMemo(() => detail.students.filter((student) => {
+  const filteredStudents = useMemo(() => students.filter((student) => {
     const matchesQuery = !query.trim() || student.studentName.includes(query.trim());
     const matchesMode =
       (mode === "completed" && student.completionState === "completed") ||
@@ -26,7 +24,7 @@ export function AssignmentDetailPage({ detail }: Props) {
       (mode === "wrong" && student.completionState === "completed" && student.wrongCount >= 3) ||
       (mode === "in_progress" && student.completionState === "in_progress");
     return matchesQuery && matchesMode;
-  }), [detail.students, mode, query]);
+  }), [students, mode, query]);
   const modeOptions = useMemo(
     () => [
       { label: "已完成学生", value: "completed" },
@@ -36,6 +34,10 @@ export function AssignmentDetailPage({ detail }: Props) {
     ],
     []
   );
+
+  if (!detail) {
+    return <section className="page-shell"><section className="panel"><h2>正在加载作业详情…</h2></section></section>;
+  }
 
   return (
     <section className="page-shell">
